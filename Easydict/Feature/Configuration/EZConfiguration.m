@@ -15,6 +15,9 @@
 #import "EZScriptExecutor.h"
 #import "EZLog.h"
 #import "EZLanguageManager.h"
+#import "AppDelegate.h"
+#import "Easydict-Swift.h"
+#import "DarkModeManager.h"
 
 static NSString *const kEasydictHelperBundleId = @"com.izual.EasydictHelper";
 
@@ -29,8 +32,6 @@ static NSString *const kAutoSelectTextKey = @"EZConfiguration_kAutoSelectTextKey
 static NSString *const kForceAutoGetSelectedText = @"EZConfiguration_kForceAutoGetSelectedText";
 static NSString *const kDisableEmptyCopyBeepKey = @"EZConfiguration_kDisableEmptyCopyBeepKey";
 static NSString *const kClickQueryKey = @"EZConfiguration_kClickQueryKey";
-static NSString *const kLaunchAtStartupKey = @"EZConfiguration_kLaunchAtStartupKey";
-static NSString *const kHideMainWindowKey = @"EZConfiguration_kHideMainWindowKey";
 static NSString *const kAutoQueryOCTTextKey = @"EZConfiguration_kAutoQueryOCTTextKey";
 static NSString *const kAutoQuerySelectedTextKey = @"EZConfiguration_kAutoQuerySelectedTextKey";
 static NSString *const kAutoQueryPastedTextKey = @"EZConfiguration_kAutoQueryPastedTextKey";
@@ -43,17 +44,28 @@ static NSString *const kDefaultTTSServiceTypeKey = @"EZConfiguration_kDefaultTTS
 static NSString *const kShowGoogleLinkKey = @"EZConfiguration_kShowGoogleLinkKey";
 static NSString *const kShowEudicLinkKey = @"EZConfiguration_kShowEudicLinkKey";
 static NSString *const kShowAppleDictionaryLinkKey = @"EZConfiguration_kShowAppleDictionaryLinkKey";
-static NSString *const kHideMenuBarIconKey = @"EZConfiguration_kHideMenuBarIconKey";
 static NSString *const kShowFixedWindowPositionKey = @"EZConfiguration_kShowFixedWindowPositionKey";
 static NSString *const kShortcutSelectTranslateWindowTypeKey = @"EZConfiguration_kShortcutSelectTranslateWindowTypeKey";
 static NSString *const kMouseSelectTranslateWindowTypeKey = @"EZConfiguration_kMouseSelectTranslateWindowTypeKey";
 static NSString *const kWindowFrameKey = @"EZConfiguration_kWindowFrameKey";
-static NSString *const kAutomaticallyChecksForUpdatesKey = @"EZConfiguration_kAutomaticallyChecksForUpdatesKey";
 static NSString *const kAdjustPopButtomOriginKey = @"EZConfiguration_kAdjustPopButtomOriginKey";
 static NSString *const kAllowCrashLogKey = @"EZConfiguration_kAllowCrashLogKey";
 static NSString *const kAllowAnalyticsKey = @"EZConfiguration_kAllowAnalyticsKey";
 static NSString *const kClearInputKey = @"EZConfiguration_kClearInputKey";
+static NSString *const kTranslationControllerFontKey = @"EZConfiguration_kTranslationControllerFontKey";
+static NSString *const kApperanceKey = @"EZConfiguration_kApperanceKey";
 
+NSString *const kHideMainWindowKey = @"EZConfiguration_kHideMainWindowKey";
+NSString *const kLaunchAtStartupKey = @"EZConfiguration_kLaunchAtStartupKey";
+NSString *const kHideMenuBarIconKey = @"EZConfiguration_kHideMenuBarIconKey";
+NSString *const kEnableBetaNewAppKey = @"EZConfiguration_kEnableBetaNewAppKey";
+
+@interface EZConfiguration ()
+
+@property (nonatomic, strong) AppDelegate *appDelegate;
+@property (nonatomic, strong) SPUUpdater *updater;
+
+@end
 
 @implementation EZConfiguration
 
@@ -78,6 +90,8 @@ static EZConfiguration *_instance;
 }
 
 - (void)setup {
+    self.appDelegate = (AppDelegate *)[NSApp delegate];
+    
     EZLanguage defaultFirstLanguage = [EZLanguageManager.shared systemPreferredTwoLanguages][0];
     self.firstLanguage = [NSUserDefaults mm_readString:kFirstLanguageKey defaultValue:defaultFirstLanguage];
     EZLanguage defaultSecondLanguage = [EZLanguageManager.shared systemPreferredTwoLanguages][1];
@@ -108,11 +122,17 @@ static EZConfiguration *_instance;
     self.fixedWindowPosition = [NSUserDefaults mm_readInteger:kShowFixedWindowPositionKey defaultValue:EZShowWindowPositionRight];
     self.mouseSelectTranslateWindowType = [NSUserDefaults mm_readInteger:kMouseSelectTranslateWindowTypeKey defaultValue:EZWindowTypeMini];
     self.shortcutSelectTranslateWindowType = [NSUserDefaults mm_readInteger:kShortcutSelectTranslateWindowTypeKey defaultValue:EZWindowTypeFixed];
-    self.automaticallyChecksForUpdates = [NSUserDefaults mm_readBool:kAutomaticallyChecksForUpdatesKey defaultValue:YES];
     self.adjustPopButtomOrigin = [NSUserDefaults mm_readBool:kAdjustPopButtomOriginKey defaultValue:NO];
     self.allowCrashLog = [NSUserDefaults mm_readBool:kAllowCrashLogKey defaultValue:YES];
     self.allowAnalytics = [NSUserDefaults mm_readBool:kAllowAnalyticsKey defaultValue:YES];
     self.clearInput = [NSUserDefaults mm_readBool:kClearInputKey defaultValue:NO];
+    
+    self.fontSizes = @[@(1), @(1.1), @(1.2), @(1.3), @(1.4)];
+    [[NSUserDefaults standardUserDefaults]registerDefaults:@{kTranslationControllerFontKey: @(0)}];
+    
+    _fontSizeIndex = [[NSUserDefaults standardUserDefaults]integerForKey:kTranslationControllerFontKey];
+    
+    self.appearance = [NSUserDefaults mm_readInteger:kApperanceKey defaultValue:AppearenceTypeFollowSystem];
 }
 
 #pragma mark - getter
@@ -123,7 +143,11 @@ static EZConfiguration *_instance;
 }
 
 - (BOOL)automaticallyChecksForUpdates {
-    return [SUUpdater sharedUpdater].automaticallyChecksForUpdates;
+    return self.updater.automaticallyChecksForUpdates;
+}
+
+- (SPUUpdater *)updater {
+    return self.appDelegate.updaterController.updater;
 }
 
 #pragma mark - setter
@@ -207,10 +231,8 @@ static EZConfiguration *_instance;
     [self logSettings:@{@"launch_at_startup" : @(launchAtStartup)}];
 }
 
-- (void)setAutomaticallyChecksForUpdates:(BOOL)automaticallyChecksForUpdates {
-    [NSUserDefaults mm_write:@(automaticallyChecksForUpdates) forKey:kAutomaticallyChecksForUpdatesKey];
-    
-    [[SUUpdater sharedUpdater] setAutomaticallyChecksForUpdates:automaticallyChecksForUpdates];
+- (void)setAutomaticallyChecksForUpdates:(BOOL)automaticallyChecksForUpdates {    
+    self.updater.automaticallyChecksForUpdates = automaticallyChecksForUpdates;
     
     [self logSettings:@{@"automatically_checks_for_updates" : @(automaticallyChecksForUpdates)}];
 }
@@ -339,9 +361,17 @@ static EZConfiguration *_instance;
     
     [NSUserDefaults mm_write:@(hideMenuBarIcon) forKey:kHideMenuBarIconKey];
     
-    [self hideMenuBarIcon:hideMenuBarIcon];
+    if (!EasydictNewAppManager.shared.enable) {
+        [self hideMenuBarIcon:hideMenuBarIcon];
+    }
     
     [self logSettings:@{@"hide_menu_bar_icon" : @(hideMenuBarIcon)}];
+}
+
+- (void)setEnableBetaNewApp:(BOOL)enableBetaNewApp {
+    _enableBetaNewApp = enableBetaNewApp;
+    [NSUserDefaults mm_write:@(enableBetaNewApp) forKey:kEnableBetaNewAppKey];
+    [self logSettings:@{@"enable_beta_new_app" : @(enableBetaNewApp)}];
 }
 
 - (void)setFixedWindowPosition:(EZShowWindowPosition)showFixedWindowPosition {
@@ -402,6 +432,31 @@ static EZConfiguration *_instance;
     [self logSettings:@{@"clear_input" : @(clearInput)}];
 }
 
+- (void)setFontSizeIndex:(NSInteger)fontSizeIndex {
+    NSInteger targetIndex = MIN(_fontSizes.count-1, MAX(fontSizeIndex, 0));
+    
+    if (_fontSizeIndex == targetIndex) {
+        return;
+    }
+    
+    _fontSizeIndex = targetIndex;
+    
+    [NSUserDefaults mm_write:@(targetIndex) forKey:kTranslationControllerFontKey];
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:ChangeFontSizeView.changeFontSizeNotificationName object:@(targetIndex)];
+}
+
+- (CGFloat)fontSizeRatio {
+    return _fontSizes[_fontSizeIndex].floatValue;
+}
+
+- (void)setAppearance:(EZAppearenceType)appearance {
+    _appearance = appearance;
+    
+    [NSUserDefaults mm_write:@(appearance) forKey:kApperanceKey];
+    
+    [[DarkModeManager manager] updateDarkMode];
+}
 
 #pragma mark - Window Frame
 

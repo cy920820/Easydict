@@ -194,8 +194,6 @@ static EZEventMonitor *_instance = nil;
 
 // Monitor global events, Ref: https://blog.csdn.net/ch_soft/article/details/7371136
 - (void)startMonitor {
-    [self monitorCGEventTap];
-    
     [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^NSEvent *_Nullable(NSEvent *_Nonnull event) {
         if (event.keyCode == kVK_Escape) { // escape
             NSLog(@"escape");
@@ -285,7 +283,7 @@ CGEventRef eventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef eve
     // Run this script early to avoid conflict with selected text scripts, otherwise the selected text may be empty in first time.
     [self recordSelectTextInfo];
     
-    self.isTextEditable = NO;
+    self.selectedTextEditable = NO;
         
     // Use Accessibility first
     [self getSelectedTextByAccessibility:^(NSString *_Nullable text, AXError error) {
@@ -302,9 +300,11 @@ CGEventRef eventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef eve
             self.selectTextType = EZSelectTextTypeAccessibility;
             
             // Monitor CGEventTap must be required after using Accessibility successfully.
-            [self monitorCGEventTap];
+            if (EZConfiguration.shared.autoSelectText) {
+                [self monitorCGEventTap];
+            }
             
-            self.isTextEditable = [EZSystemUtility isSelectedTextEditable];
+            self.selectedTextEditable = [EZSystemUtility isSelectedTextEditable];
 
             completion(text);
             return;
@@ -364,6 +364,10 @@ CGEventRef eventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef eve
         
         completion(nil);
     }];
+}
+
+- (void)updateSelectedTextEditableState {
+    self.selectedTextEditable = [EZSystemUtility isSelectedTextEditable];
 }
 
 - (BOOL)useAccessibilityForFirstTime {
@@ -451,7 +455,7 @@ CGEventRef eventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef eve
             [self delayRecoverVolume];
         }
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kDelayGetSelectedTextTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(EZGetClipboardTextDelayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             NSInteger newChangeCount = [pasteboard changeCount];
             // If changeCount is equal to newChangeCount, it means that the copy value is nil.
             if (changeCount == newChangeCount) {
@@ -948,6 +952,8 @@ CGEventRef eventCallback(CGEventTapProxy proxy, CGEventType type, CGEventRef eve
         self.dismissPopButtonBlock();
     }
     self.isPopButtonVisible = NO;
+    
+    [self stopCGEventTap];
 }
 
 

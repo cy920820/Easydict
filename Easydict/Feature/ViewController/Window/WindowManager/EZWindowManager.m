@@ -144,13 +144,7 @@ static EZWindowManager *_instance;
     }];
     
     [self.eventMonitor setDoubleCommandBlock:^{
-        NSLog(@"double command");
-        
-        // TODO: Let users customize double-click shortcuts later on
-#if DEBUG
-        mm_strongify(self);
-        [self showMiniFloatingWindow];
-#endif
+        NSLog(@"double command block");
     }];
 }
 
@@ -326,6 +320,11 @@ static EZWindowManager *_instance;
              completionHandler:(nullable void (^)(void))completionHandler {
     self.selectedText = queryText;
     self.actionType = actionType;
+    
+    // Update isTextEditable value when using invoke query, such as open URL Scheme by PopClip.
+    if (actionType == EZActionTypeInvokeQuery) {
+        [self.eventMonitor updateSelectedTextEditableState];
+    }
     
     EZBaseQueryWindow *window = [self windowWithType:windowType];
     

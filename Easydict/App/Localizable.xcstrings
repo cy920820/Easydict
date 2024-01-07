@@ -34,6 +34,23 @@
         }
       }
     },
+    "ali_translate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ali Translate"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "阿里翻译"
+          }
+        }
+      }
+    },
     "Alignment Error" : {
       "comment" : "Error description",
       "localizations" : {
@@ -106,6 +123,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "反义词"
+          }
+        }
+      }
+    },
+    "app_appearance" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外观:"
+          }
+        }
+      }
+    },
+    "appearenceType_dark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深色模式"
+          }
+        }
+      }
+    },
+    "appearenceType_followSystem" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow System"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跟随系统"
+          }
+        }
+      }
+    },
+    "appearenceType_light" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浅色模式"
           }
         }
       }
@@ -404,6 +485,16 @@
         }
       }
     },
+    "beta_new_app" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[Beta] SwiftUI App模式"
+          }
+        }
+      }
+    },
     "bing_translate" : {
       "localizations" : {
         "en" : {
@@ -460,6 +551,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消"
+          }
+        }
+      }
+    },
+    "check_updates" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查更新"
           }
         }
       }
@@ -782,6 +883,22 @@
         }
       }
     },
+    "Easydict" : {
+
+    },
+    "Easydict 🍃" : {
+
+    },
+    "enable_beta_new_app" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以 SwiftUI App模式启动，重启App生效"
+          }
+        }
+      }
+    },
     "equal_first_and_second_language" : {
       "localizations" : {
         "en" : {
@@ -810,6 +927,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "接口异常"
+          }
+        }
+      }
+    },
+    "error_insufficient_quota" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insufficient built-in API Key quota."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "内置 API key 额度不足。"
           }
         }
       }
@@ -1034,6 +1167,23 @@
         }
       }
     },
+    "font_size" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Font Size:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "字体大小:"
+          }
+        }
+      }
+    },
     "force_auto_get_selected_text" : {
       "localizations" : {
         "en" : {
@@ -1172,13 +1322,30 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "If you need to restore, open the settings page in the query window using the shortcut `Cmd + ,`, then cancel the [Hide Status Bar Icon] option."
+            "value" : "Make sure you have set up a shortcut to trigger Easydict!\n\nIf you want to restore, open the settings page in the query window using the shortcut `Cmd + ,`, then cancel the [Hide Status Bar Icon] option."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "如需恢复，请在查词窗口使用快捷键 `Cmd + ,` 打开设置页，然后取消【隐藏菜单栏图标】选项。"
+            "value" : "请确保已设置了触发 Easydict 的快捷！\n\n如需恢复，请在查词窗口使用快捷键 `Cmd + ,` 打开设置页，然后取消【隐藏菜单栏图标】选项。"
+          }
+        }
+      }
+    },
+    "hints_keyboard_shortcuts_font_size" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Font size can be changed using the ⌘ +/- shortcut in the Translation windows."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持在翻译窗口通过快捷键 ⌘ +/- 修改字体大小"
           }
         }
       }
@@ -1243,6 +1410,22 @@
         }
       }
     },
+    "insufficient_quota_prompt" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please go to the official service website to register and apply for a personal API key."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "请前往服务官网注册申请个人的 API key。"
+          }
+        }
+      }
+    },
     "language_detect_optimize" : {
       "localizations" : {
         "en" : {
@@ -1303,6 +1486,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "仅使用系统语种识别"
+          }
+        }
+      }
+    },
+    "large" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Large"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大"
           }
         }
       }
@@ -1574,6 +1774,16 @@
         }
       }
     },
+    "other" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他"
+          }
+        }
+      }
+    },
     "Parameter Error" : {
       "comment" : "Error description",
       "localizations" : {
@@ -1692,7 +1902,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "请看👉"
+            "value" : "参见 👉"
           }
         }
       }
@@ -1826,6 +2036,16 @@
         }
       }
     },
+    "quit" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出"
+          }
+        }
+      }
+    },
     "replace_text" : {
       "localizations" : {
         "en" : {
@@ -1935,6 +2155,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "通用"
+          }
+        }
+      }
+    },
+    "Settings..." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置..."
           }
         }
       }
@@ -2083,6 +2313,23 @@
         }
       }
     },
+    "small" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Small"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小"
+          }
+        }
+      }
+    },
     "snip_translate" : {
       "localizations" : {
         "en" : {
@@ -2175,6 +2422,26 @@
         }
       }
     },
+    "tencent_translate" : {
+      "comment" : "The name of Tencent Translate",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tencent Translate"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "腾讯翻译君"
+          }
+        }
+      }
+    },
+    "Tisfeng" : {
+
+    },
     "toggle_languages" : {
       "localizations" : {
         "en" : {
@@ -2241,22 +2508,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "取消钉住"
-          }
-        }
-      }
-    },
-    "unsupported_translation_type" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unsupported translation type"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不支持的翻译类型"
           }
         }
       }

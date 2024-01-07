@@ -209,13 +209,18 @@
         EZYoudaoDictionaryKey,
         
         EZDeepLAuthKey,
+        EZDeepLTranslateEndPointKey,
         EZDeepLTranslationAPIKey,
         EZNiuTransAPIKey,
         EZCaiyunToken,
+        EZTencentSecretId,
+        EZTencentSecretKey,
+        EZBingCookieKey,
+        
+        EZAliAccessKeyId,
+        EZAliAccessKeySecret,
 
         EZIntelligentQueryModeKey,
-        
-        EZBingCookieKey,
     ];
     
     return readWriteKeys;
@@ -232,7 +237,7 @@
         
     ];
     
-    return actionKeys;;
+    return actionKeys;
 }
 
 - (void)restartApplication {
